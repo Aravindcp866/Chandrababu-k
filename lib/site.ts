@@ -4,12 +4,7 @@ import { chandrababu } from "@/data/chandrababu";
 export const siteName = `${chandrababu.name} — Family Archive`;
 
 export function absoluteUrl(path = "/"): string {
-  const envUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ||
-    (process.env.NEXT_PUBLIC_VERCEL_URL
-      ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-      : null);
-  const base = (envUrl || chandrababu.siteUrl || "http://localhost:3000").replace(/\/$/, "");
+  const base = chandrababu.siteUrl.replace(/\/$/, "");
   if (!path || path === "/") return `${base}/`;
   return `${base}${path.startsWith("/") ? path : `/${path}`}`;
 }
