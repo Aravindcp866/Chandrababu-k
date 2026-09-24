@@ -95,7 +95,11 @@ export const chandrababu = {
 `,
   footerLine: "Remembered. Always.",
   createdBy: "Created with love by his family.",
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  siteUrl:
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    (process.env.NEXT_PUBLIC_VERCEL_URL
+      ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+      : "http://localhost:3000"),
   locale: "en-IN",
   language: "en",
   publisherName: "The family of Chandrababu",
