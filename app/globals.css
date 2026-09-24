@@ -1,26 +1,320 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --paper: #f3eee6;
+  --paper-raised: #f8f4ed;
+  --ink: #2a241c;
+  --ink-soft: #5e564c;
+  --ink-faint: #8a8176;
+  --line: #d7cec0;
+  --line-strong: #c4b8a6;
+  --accent: #7c5341;
+  --focus: #2a241c;
+  --header-h: 4.25rem;
+  --page-pad: clamp(1.25rem, 4vw, 3.75rem);
+  --page-max: 72rem;
+  --measure: 38rem;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
   --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-cormorant);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+html,
+body {
+  min-height: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--paper);
+  background-image:
+    linear-color-mix(in srgb, var(--ink) 3.5%, transparent) 0 0 / 100% 1px,
+    radial-gradient(1200px 600px at 12% -10%, rgb(255 250 242 / 0.55), transparent 58%);
+  background-image: radial-gradient(
+    1200px 700px at 8% -20%,
+    rgb(255 251 245 / 0.7),
+    transparent 55%
+  );
+  color: var(--ink);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  letter-spacing: -0.011em;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 22%, var(--paper));
+  color: var(--ink);
+}
+
+a {
+  color: inherit;
+  text-underline-offset: 0.22em;
+}
+
+:focus-visible {
+  outline: 1px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--page-pad);
+  top: 0.75rem;
+  z-index: 80;
+  transform: translateY(-140%);
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.45rem 0.8rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+.page-shell {
+  width: min(100%, var(--page-max));
+  margin-inline: auto;
+  padding-inline: var(--page-pad);
+}
+
+.kicker {
+  font-size: 0.6875rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  font-weight: 500;
+}
+
+.display {
+  font-family: var(--font-cormorant), ui-serif, Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 0.92;
+}
+
+.serif {
+  font-family: var(--font-cormorant), ui-serif, Georgia, serif;
+}
+
+.measure {
+  max-width: var(--measure);
+}
+
+.hairline {
+  height: 1px;
+  background: var(--line);
+  border: 0;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+}
+
+.nav-link {
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+
+.nav-link:hover,
+.nav-link[aria-current="page"] {
+  color: var(--ink);
+}
+
+.nav-link[aria-current="page"] {
+  text-decoration: underline;
+  text-underline-offset: 0.35em;
+  text-decoration-thickness: 1px;
+}
+
+.editorial-link {
+  font-size: 0.8125rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 0.18rem;
+  color: var(--ink);
+}
+
+.editorial-link:hover {
+  border-bottom-color: var(--accent);
+  color: var(--accent);
+}
+
+.quiet-link {
+  font-size: 0.8125rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ink-soft);
+  border-bottom: 1px solid transparent;
+  padding-bottom: 0.18rem;
+}
+
+.quiet-link:hover {
+  color: var(--ink);
+  border-bottom-color: var(--line-strong);
+}
+
+.photo-frame {
+  position: relative;
+  overflow: hidden;
+  background: var(--paper-raised);
+}
+
+.photo-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-frame--muted img {
+  filter: saturate(0.86) contrast(1.02);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .photo-frame--muted img {
+    transition: transform 700ms ease, filter 700ms ease;
+  }
+
+  .photo-frame:hover img {
+    transform: scale(1.015);
+    filter: saturate(0.94) contrast(1.03);
+  }
+
+  .reveal {
+    animation: rise 0.9s ease both;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.archive-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.15rem 1.15rem;
+}
+
+.archive-grid button {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  width: 100%;
+}
+
+.timeline {
+  display: grid;
+  gap: 2.75rem;
+}
+
+.timeline-item {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: 1fr;
+}
+
+.lightbox {
+  width: min(96vw, 72rem);
+  max-width: 72rem;
+  max-height: 94vh;
+  margin: auto;
+  border: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.lightbox::backdrop {
+  background: rgb(28 24 20 / 0.78);
+}
+
+.crumb {
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.crumb a {
+  text-decoration: none;
+  color: var(--ink-soft);
+}
+
+.crumb a:hover {
+  color: var(--ink);
+}
+
+@media (min-width: 720px) {
+  .archive-grid {
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1.35rem 1.25rem;
+  }
+
+  .span-5 { grid-column: span 5; }
+  .span-6 { grid-column: span 6; }
+  .span-7 { grid-column: span 7; }
+  .span-12 { grid-column: span 12; }
+
+  .timeline-item {
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+    gap: 1.5rem 2.25rem;
+    align-items: start;
+  }
+}
+
+@media (min-width: 1024px) {
+  .archive-grid {
+    gap: 1.75rem 1.5rem;
+  }
 }
